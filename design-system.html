@@ -1,0 +1,303 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,follow">
+<title>Apple Glass 设计系统｜沈阳鑫龙成门业</title>
+<meta name="description" content="沈阳鑫龙成门业 Apple Glass 设计系统：玻璃材质、色彩、字体、间距、按钮、卡片、导航与响应式规范。">
+<link rel="icon" href="/skin/img/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/skin/css/site.css?v=20261019h">
+<style>
+  .ds-page { background: transparent; }
+  .ds-top {
+    position: sticky;
+    top: 10px;
+    z-index: 30;
+    width: min(calc(100% - 2rem), 1280px);
+    margin: 0 auto;
+    border: 1px solid var(--glass-border);
+    border-radius: 20px;
+    background: var(--glass-strong);
+    box-shadow: var(--glass-shadow-soft);
+    -webkit-backdrop-filter: blur(24px) saturate(180%);
+    backdrop-filter: blur(24px) saturate(180%);
+  }
+  .ds-top__inner { display: flex; align-items: center; justify-content: space-between; gap: 1rem; min-height: 54px; padding: 0 10px; }
+  .ds-top .brand { width: 142px; height: 34px; padding: 3px 7px; border-radius: 11px; }
+  .ds-top .brand img { height: 24px; }
+  .ds-top a.ds-back { color: var(--muted-strong); font-size: .82rem; font-weight: 600; }
+  .ds-hero { padding-block: clamp(3rem, 6vw, 5rem) clamp(1.8rem, 4vw, 3rem); }
+  .ds-hero h1 { max-width: 11em; margin-top: .7rem; font-size: clamp(2.7rem, 5.6vw, 5.1rem); line-height: .98; letter-spacing: -.055em; }
+  .ds-hero p:last-child { max-width: 60ch; margin-top: 1.1rem; color: var(--muted); }
+  .ds-section { padding-block: clamp(2.2rem, 4vw, 3.6rem); border-top: 1px solid var(--line); }
+  .ds-section__head { display: grid; grid-template-columns: 280px minmax(0, 1fr); gap: 2rem; margin-bottom: 1.5rem; }
+  .ds-section__head h2 { font-size: clamp(1.5rem, 2.5vw, 2.1rem); }
+  .ds-section__head p { max-width: 58ch; color: var(--muted); font-size: .9rem; line-height: 1.65; }
+  .ds-kicker { color: var(--muted); font-family: var(--font-num); font-size: .7rem; letter-spacing: .08em; }
+  .ds-grid { display: grid; gap: .8rem; }
+  .ds-grid--swatches { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .ds-grid--two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .ds-swatch { min-height: 132px; padding: .9rem; border: 1px solid var(--glass-border); border-radius: 18px; background: var(--glass); box-shadow: var(--glass-shadow-soft); -webkit-backdrop-filter: blur(20px) saturate(160%); backdrop-filter: blur(20px) saturate(160%); }
+  .ds-swatch__chip { height: 50px; border: 1px solid var(--line); border-radius: 12px; background: var(--swatch); }
+  .ds-swatch strong { display: block; margin-top: .6rem; font-size: .8rem; }
+  .ds-swatch code { display: block; margin-top: .1rem; color: var(--muted); font-size: .68rem; }
+  .ds-type { display: grid; gap: 1.1rem; padding: clamp(1rem, 2vw, 1.5rem); border: 1px solid var(--glass-border); border-radius: 24px; background: var(--glass); box-shadow: var(--glass-shadow-soft); -webkit-backdrop-filter: blur(20px) saturate(160%); backdrop-filter: blur(20px) saturate(160%); }
+  .ds-type .display { max-width: 10em; font-size: var(--display-md); line-height: 1.02; letter-spacing: -.045em; font-weight: 700; }
+  .ds-type .h2 { font-size: var(--display-sm); line-height: 1.08; letter-spacing: -.035em; font-weight: 700; }
+  .ds-type .h3 { font-size: 1.3rem; font-weight: 650; }
+  .ds-type p { max-width: 58ch; color: var(--muted); }
+  .ds-type small { color: var(--muted); font-size: .78rem; }
+  .ds-panel { padding: clamp(1.1rem, 2.4vw, 1.8rem); border: 1px solid var(--glass-border); border-radius: 24px; background: var(--glass); box-shadow: var(--glass-shadow-soft); -webkit-backdrop-filter: blur(20px) saturate(160%); backdrop-filter: blur(20px) saturate(160%); }
+  .ds-row { display: flex; flex-wrap: wrap; align-items: center; gap: .55rem; }
+  .ds-stack { display: grid; gap: .9rem; }
+  .ds-list { display: grid; gap: .4rem; color: var(--muted); font-size: .86rem; }
+  .ds-list li { position: relative; padding-left: .95rem; }
+  .ds-list li::before { content: ""; position: absolute; top: .68em; left: 0; width: 4px; height: 4px; border-radius: 50%; background: var(--accent); }
+  .ds-note { padding: .9rem 1rem; border: 1px solid color-mix(in srgb, var(--accent) 18%, transparent); border-radius: 16px; background: var(--accent-soft); color: var(--ink); font-size: .84rem; line-height: 1.65; }
+  .ds-links { display: flex; flex-wrap: wrap; gap: .45rem; }
+  .ds-links a { display: inline-flex; align-items: center; min-height: 38px; padding: .3rem .7rem; border: 1px solid var(--line); border-radius: 999px; background: var(--surface-2); color: var(--muted-strong); font-size: .8rem; }
+  .ds-links a:hover { border-color: var(--line-strong); background: var(--surface-strong); color: var(--ink); }
+  .ds-footer { padding-block: 2rem 4rem; color: var(--muted); font-size: .78rem; }
+  @media (max-width: 820px) {
+    .ds-section__head { grid-template-columns: 1fr; gap: .55rem; }
+    .ds-grid--swatches { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+  @media (max-width: 640px) {
+    .ds-grid--two { grid-template-columns: 1fr; }
+    .ds-top { top: 7px; width: calc(100% - 1rem); }
+  }
+</style>
+</head>
+<body class="ds-page">
+<a class="skip-link" href="#main">跳至主要内容</a>
+<header class="ds-top">
+  <div class="ds-top__inner">
+    <a class="brand" href="/" aria-label="沈阳鑫龙成门业首页">
+      <img src="/skin/img/logo-xlc.png" width="364" height="100" alt="沈阳鑫龙成门业">
+    </a>
+    <a class="ds-back" href="/">返回网站首页 →</a>
+  </div>
+</header>
+
+<main id="main">
+  <section class="ds-hero container">
+    <p class="eyebrow">Apple Glass · 2026.10</p>
+    <h1>像玻璃一样轻，<br>像系统一样统一。</h1>
+    <p>全站以 Apple HIG 的层级、留白与系统字体为基础，叠加液态玻璃材质：透明层、边缘高光、环境色和指针镜面反射。原 <code>liquid_glass_widgets</code> 是 Flutter 组件库，本页是它的 Web 原生视觉适配。</p>
+  </section>
+
+  <section class="ds-section container" id="material">
+    <div class="ds-section__head">
+      <div><p class="eyebrow">01 / 材质与色彩</p><h2>中性底、单一蓝色行动色</h2></div>
+      <p>页面用浅灰和柔和环境光承托玻璃，行动色只保留一种 Apple 蓝。深色模式使用深灰玻璃，不直接反转页面色。</p>
+    </div>
+    <div class="ds-grid ds-grid--swatches">
+      <div class="ds-swatch"><div class="ds-swatch__chip" style="--swatch:var(--bg)"></div><strong>页面底色</strong><code>--bg · #f5f5f7</code></div>
+      <div class="ds-swatch"><div class="ds-swatch__chip" style="--swatch:var(--surface-solid)"></div><strong>实色面板</strong><code>--surface-solid · #fff</code></div>
+      <div class="ds-swatch"><div class="ds-swatch__chip" style="--swatch:var(--ink)"></div><strong>主文字</strong><code>--ink · #1d1d1f</code></div>
+      <div class="ds-swatch"><div class="ds-swatch__chip" style="--swatch:var(--muted)"></div><strong>次级文字</strong><code>--muted · #6e6e73</code></div>
+      <div class="ds-swatch"><div class="ds-swatch__chip" style="--swatch:var(--accent)"></div><strong>行动蓝</strong><code>--accent · #0071e3</code></div>
+      <div class="ds-swatch"><div class="ds-swatch__chip" style="--swatch:var(--accent-strong)"></div><strong>强调文字</strong><code>--accent-strong · #0066cc</code></div>
+      <div class="ds-swatch"><div class="ds-swatch__chip" style="--swatch:var(--inverse-bg)"></div><strong>深色玻璃</strong><code>--inverse-bg</code></div>
+      <div class="ds-swatch"><div class="ds-swatch__chip" style="--swatch:var(--line)"></div><strong>分隔线</strong><code>--line · rgba(60,60,67,.14)</code></div>
+    </div>
+    <p class="ds-note" style="margin-top:.9rem">玻璃卡片使用 <code>--glass</code> + <code>--glass-border</code> + <code>--glass-shadow</code>。不要把 <code>--ink</code> 当深色卡片背景；深色卡片使用独立的 <code>--inverse-*</code> 令牌。</p>
+  </section>
+
+  <section class="ds-section container" id="type">
+    <div class="ds-section__head">
+      <div><p class="eyebrow">02 / 字体与层级</p><h2>系统字体，大标题，短句子</h2></div>
+      <p>优先使用 SF Pro / PingFang SC / Segoe UI 系统字体，不加载外部字体。标题使用 700 字重和紧字距，正文 17px、行高 1.58。</p>
+    </div>
+    <div class="ds-grid ds-grid--two">
+      <div class="ds-type">
+        <span class="ds-kicker">DISPLAY</span>
+        <p class="display">每一道门，<br>都按现场来做。</p>
+        <span class="ds-kicker">H2</span>
+        <p class="h2">现场先看清，方案才做得稳。</p>
+        <span class="ds-kicker">H3</span>
+        <p class="h3">整体平移，入口开阔</p>
+        <span class="ds-kicker">BODY</span>
+        <p>门体尺寸、开启方式、车流动线与控制设备相互影响。我们从现场勘测开始，把每个环节放进同一套方案。</p>
+        <small>辅助说明：页面参数用于选型参考，最终以现场勘测与确认方案为准。</small>
+      </div>
+      <div class="ds-panel">
+        <p class="eyebrow">数字 / 编号</p>
+        <p style="font-family:var(--font-num);font-size:clamp(3rem,6vw,5.2rem);font-weight:650;line-height:1;letter-spacing:-.03em">2002</p>
+        <p style="margin-top:.45rem;color:var(--muted);font-size:.84rem">起始年份 / 服务经验</p>
+        <p style="font-family:var(--font-num);font-size:clamp(1.9rem,4vw,2.8rem);font-weight:650;line-height:1.1;margin-top:1.3rem">8 类 · 24h</p>
+        <p style="margin-top:.4rem;color:var(--muted);font-size:.84rem">分类数量 / 响应承诺</p>
+        <p style="font-size:.82rem;color:var(--muted);margin-top:1.2rem">数字使用 <code>--font-num</code>；正文最小 16px，文章正文不小于 17px。</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="ds-section container" id="actions">
+    <div class="ds-section__head">
+      <div><p class="eyebrow">03 / 按钮与筛选</p><h2>圆角胶囊，单一主行动</h2></div>
+      <p>主按钮使用蓝色渐变与柔和光晕；次按钮是半透明玻璃胶囊。筛选 chip 保持胶囊形状，激活态使用蓝色实底。</p>
+    </div>
+    <div class="ds-grid ds-grid--two">
+      <div class="ds-panel ds-stack">
+        <div class="ds-row">
+          <a class="button button--primary" href="tel:15998303077">拨打电话</a>
+          <a class="button button--secondary" href="/a/chanpin/">查看产品 →</a>
+          <a class="button button--compact button--primary" href="/a/lianxiwomen/#inquiry">获取方案</a>
+        </div>
+        <div class="ds-row">
+          <button class="button button--primary" type="button">主按钮</button>
+          <button class="button button--secondary" type="button">次按钮</button>
+          <button class="button button--secondary" type="button" disabled>禁用状态</button>
+        </div>
+        <p class="ds-kicker">BUTTON / 最小高度 46px，圆角 999px</p>
+      </div>
+      <div class="ds-panel ds-stack">
+        <div class="ds-row">
+          <span class="tag tag--accent">公共机构</span>
+          <span class="tag">按现场定制</span>
+          <span class="tag tag--ink">支持测量</span>
+        </div>
+        <div class="ds-row">
+          <button class="chip is-active" type="button" aria-pressed="true">全部 <span class="chip__count">9</span></button>
+          <button class="chip" type="button" aria-pressed="false">门体 <span class="chip__count">6</span></button>
+          <button class="chip" type="button" aria-pressed="false">通行系统 <span class="chip__count">3</span></button>
+        </div>
+        <div class="search-field" style="max-width:260px">
+          <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="8.8" cy="8.8" r="5.3" stroke="currentColor" stroke-width="1.5"/><path d="m13 13 4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
+          <span class="sr-only">搜索产品</span>
+          <input type="search" placeholder="搜索产品名称">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="ds-section container" id="cards">
+    <div class="ds-section__head">
+      <div><p class="eyebrow">04 / 玻璃卡片</p><h2>图片、信息、行动三件事</h2></div>
+      <p>卡片本身是 22–26px 圆角的玻璃层，图片内嵌 8px 并带 19px 圆角。悬停时整卡上移 4px，指针位置驱动镜面高光。</p>
+    </div>
+    <div class="product-grid" style="margin-bottom:.9rem">
+      <article class="product-card">
+        <a class="product-card__media" href="/a/chanpin/xfm/"><img src="/images/optimized/floating-gate.webp" alt="悬浮门" width="720" height="540" loading="eager"><span class="product-card__badge">园区入口</span></a>
+        <div class="product-card__body">
+          <div class="product-card__meta"><span>悬浮门</span><span>支持现场测量</span></div>
+          <h3><a href="/a/chanpin/xfm/">悬浮门</a></h3>
+          <p>整体平移、无轨运行，入口开阔，适合园区、工厂与机关单位。</p>
+          <a class="product-card__link" href="/a/chanpin/xfm/">查看产品</a>
+        </div>
+      </article>
+      <article class="product-card">
+        <a class="product-card__media" href="/a/chanpin/ssm/"><img src="/images/optimized/retractable-gate.webp" alt="电动伸缩门" width="720" height="540" loading="eager"><span class="product-card__badge">宽出入口</span></a>
+        <div class="product-card__body">
+          <div class="product-card__meta"><span>伸缩门</span><span>支持现场测量</span></div>
+          <h3><a href="/a/chanpin/ssm/">电动伸缩门</a></h3>
+          <p>伸缩折叠，适配较宽出入口，可结合门禁与车辆识别使用。</p>
+          <a class="product-card__link" href="/a/chanpin/ssm/">查看产品</a>
+        </div>
+      </article>
+      <article class="product-card">
+        <a class="product-card__media" href="/a/chanpin/tcc/"><img src="/images/optimized/parking-system.webp" alt="停车场系统" width="720" height="540" loading="eager"><span class="product-card__badge">车辆管理</span></a>
+        <div class="product-card__body">
+          <div class="product-card__meta"><span>停车场系统</span><span>支持现场测量</span></div>
+          <h3><a href="/a/chanpin/tcc/">停车场系统</a></h3>
+          <p>车牌识别、道闸与收费管理联动，覆盖车辆进出全流程。</p>
+          <a class="product-card__link" href="/a/chanpin/tcc/">查看产品</a>
+        </div>
+      </article>
+    </div>
+    <div class="ds-grid ds-grid--two">
+      <article class="news-card">
+        <div class="news-card__meta"><span>行业动态</span><time datetime="2024-02-24">2024-02-24</time></div>
+        <h3><a href="/a/xinwendongtai/">停车场道闸车牌识别系统：自动管理出入车辆</a></h3>
+        <p>从识别、抬杆到收费，车辆出入口的系统组成与实施要点。</p>
+        <a class="news-card__link" href="/a/xinwendongtai/">阅读全文</a>
+      </article>
+      <article class="solution-card">
+        <span class="solution-card__num">01</span>
+        <h3><a href="/a/jiejuefangan/">园区出入口方案</a></h3>
+        <p>门体、识别、道闸与岗亭按车流动线组合，减少二次改造。</p>
+        <a class="solution-card__link" href="/a/jiejuefangan/">查看方案</a>
+      </article>
+    </div>
+  </section>
+
+  <section class="ds-section container" id="forms">
+    <div class="ds-section__head">
+      <div><p class="eyebrow">05 / 表单与状态</p><h2>透明但可读，失败也给下一步</h2></div>
+      <p>输入框使用 14px 圆角和半透明底；标签在输入框上方。空状态提供解释和可执行行动。</p>
+    </div>
+    <div class="ds-grid ds-grid--two">
+      <div class="ds-panel ds-stack">
+        <div class="field"><label for="ds-name">联系人</label><input id="ds-name" type="text" placeholder="请填写联系人"></div>
+        <div class="field"><label for="ds-phone">联系电话</label><input id="ds-phone" type="tel" placeholder="请填写手机号码"></div>
+        <div class="field"><label for="ds-note">现场情况</label><textarea id="ds-note" placeholder="门洞尺寸、开启方向、现场照片说明"></textarea></div>
+        <p class="ds-kicker">FORM / 真实表单需接入后端后再上线</p>
+      </div>
+      <div class="empty-state">
+        <p class="eyebrow">空状态</p>
+        <h2>没有匹配的产品</h2>
+        <p>试试其他关键词，或直接电话说明门洞尺寸和使用场景。</p>
+        <a class="button button--primary" href="tel:15998303077">电话咨询</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="ds-section container" id="templates">
+    <div class="ds-section__head">
+      <div><p class="eyebrow">06 / 页面模板</p><h2>同一套材质覆盖全站</h2></div>
+      <p>所有模板共用浮动玻璃页头、页面主视觉玻璃面板、卡片、按钮与页脚。新增页面从模板组合，不复制一次性样式。</p>
+    </div>
+    <div class="ds-links">
+      <a href="/">首页</a>
+      <a href="/a/chanpin/">产品中心</a>
+      <a href="/a/chanpin/xfm/">产品分类</a>
+      <a href="/a/chanpin/xfm/2018/0913/135.html">产品详情</a>
+      <a href="/a/chenggonganli/">成功案例</a>
+      <a href="/a/chenggonganli/195.html">案例详情</a>
+      <a href="/a/xinwendongtai/">新闻列表</a>
+      <a href="/a/gongsixinwen/xingyedongtai/202.html">文章详情</a>
+      <a href="/a/jiejuefangan/">解决方案</a>
+      <a href="/a/guanyuwomen/">关于我们</a>
+      <a href="/a/lianxiwomen/">联系我们</a>
+    </div>
+  </section>
+
+  <section class="ds-section container" id="rules">
+    <div class="ds-section__head">
+      <div><p class="eyebrow">07 / 使用规则</p><h2>Do / Don't</h2></div>
+      <p>玻璃是层级工具，不是装饰。大面积文字背后保持足够不透明度；每个区域只保留一个主行动。</p>
+    </div>
+    <div class="ds-grid ds-grid--two">
+      <div class="ds-panel">
+        <p class="eyebrow">Do</p>
+        <ul class="ds-list" style="margin-top:.8rem">
+          <li>页面底部使用浅灰环境光，玻璃才有可折射的层次。</li>
+          <li>主按钮用 <code>--primary-bg</code>，文字链接用 <code>--accent-strong</code>。</li>
+          <li>卡片圆角 22–26px，图片内缩 8px，保留边缘高光。</li>
+          <li>移动菜单使用高不透明度玻璃，并在背后加模糊遮罩。</li>
+          <li>新增颜色、圆角、阴影先进入 <code>:root</code> 令牌。</li>
+        </ul>
+      </div>
+      <div class="ds-panel">
+        <p class="eyebrow">Don't</p>
+        <ul class="ds-list" style="margin-top:.8rem">
+          <li>不要在所有元素上叠加 backdrop-filter，性能会下降。</li>
+          <li>不要用低对比的蓝色小字写正文。</li>
+          <li>不要在玻璃卡片上再叠不透明大色块。</li>
+          <li>不要用 <code>--ink</code> 反向做深色卡片，暗色模式会失效。</li>
+          <li>不要重新引入旧模板 CSS 或 jQuery。</li>
+        </ul>
+      </div>
+    </div>
+    <p class="ds-note" style="margin-top:1rem">适配说明：<code>liquid_glass_widgets</code> 的 Flutter API 无法直接运行在静态 HTML 中；本实现保留其核心视觉特征（透明材质、边缘高光、环境折射、指针高光），不引入 Flutter Web 运行时，避免破坏 SEO 与加载性能。</p>
+  </section>
+
+  <footer class="ds-footer container">
+    <p>沈阳鑫龙成门业 · Apple Glass 设计系统 2026.10 · 详细规范见 <code>DESIGN-SYSTEM.md</code></p>
+    <p style="margin-top:.35rem">本页仅用于设计与开发验收，不参与搜索收录。</p>
+  </footer>
+</main>
+<script src="/skin/js/site.js?v=20261019h" defer></script>
+</body>
+</html>
