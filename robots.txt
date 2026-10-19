@@ -21,5 +21,5 @@ Disallow: /docs/
 Disallow: /design-system.html
 Disallow: /DESIGN-SYSTEM.md
 
-Sitemap: https://firstlook0112.github.io/sitemap.xml
+Sitemap: https://xlc-door.github.io/sitemap.xml
 
